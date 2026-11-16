@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#102b25">
+<link rel="manifest" href="manifest.webmanifest">
+<title>FOUNDER LAB</title>
+<style>
+:root{--bg:#f3f5f2;--card:#fff;--ink:#17231f;--muted:#6c7973;--green:#174c3c;--lime:#c8ee79;--line:#e2e8e3}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans JP",sans-serif}
+header{background:#102b25;color:white;padding:24px 20px 20px}header small{color:#c8d8d0;letter-spacing:.14em;font-weight:700}header h1{margin:7px 0 4px;font-size:27px;letter-spacing:.02em}header p{margin:0;color:#d1ded8;font-size:13px}
+main{max-width:760px;margin:auto;padding:16px 14px 92px}.tabs{display:flex;gap:7px;overflow:auto;margin:0 0 15px}.tabs button{border:1px solid var(--line);background:white;border-radius:999px;padding:10px 15px;white-space:nowrap;color:var(--ink);font-weight:650}.tabs button.active{background:var(--green);color:white;border-color:var(--green)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:17px;margin:12px 0;box-shadow:0 3px 12px #15271c08}
+.eyebrow{font-size:11px;letter-spacing:.12em;color:var(--muted);font-weight:800}.title{font-size:21px;font-weight:800;margin:6px 0}.muted{color:var(--muted);font-size:13px;line-height:1.7}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.pill{background:#edf5e9;color:#24523d;border-radius:99px;padding:5px 9px;font-size:11px;font-weight:750}
+button.primary{background:var(--green);color:white;border:0;border-radius:12px;padding:13px 16px;font-weight:750;width:100%;margin-top:10px}
+button.secondary{background:#eef3ef;color:var(--green);border:0;border-radius:10px;padding:10px 13px;font-weight:700}
+.progress{height:9px;background:#e8eee9;border-radius:99px;overflow:hidden;margin:9px 0}.progress span{display:block;height:100%;background:#7eaa68;border-radius:99px}
+h2{font-size:18px;margin:3px 0 12px}h3{font-size:15px;margin:14px 0 6px}.lesson p,.lesson li{line-height:1.8;font-size:14px}.lesson ul{padding-left:20px}
+input,textarea,select{width:100%;padding:12px;border:1px solid var(--line);border-radius:11px;font:inherit;background:white;margin:6px 0 10px}textarea{min-height:110px;resize:vertical}
+.option{display:block;border:1px solid var(--line);padding:12px;border-radius:11px;margin:8px 0;font-size:14px}.option input{width:auto;margin:0 7px 0 0}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.stat{background:#f5f8f5;border-radius:13px;padding:13px}.stat b{font-size:22px;display:block}.stat span{font-size:11px;color:var(--muted)}
+footer{position:fixed;bottom:0;left:0;right:0;background:#ffffffed;border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));text-align:center;font-size:11px;color:var(--muted)}
+.hidden{display:none!important}.check{display:flex;gap:8px;align-items:flex-start;font-size:14px;margin:10px 0}.check input{width:auto;margin-top:4px}
+@media(min-width:650px){main{padding-top:24px}.grid{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<header><small>YOUR ENTREPRENEURSHIP JOURNEY</small><h1>FOUNDER LAB</h1><p>学ぶ。考える。試す。自分の事業をつくる。</p></header>
+<main>
+<nav class="tabs">
+<button class="active" data-tab="today">今日</button><button data-tab="curriculum">年間カリキュラム</button><button data-tab="progress">進捗</button><button data-tab="notes">ノート</button>
+</nav>
+<section id="today"></section><section id="curriculum" class="hidden"></section><section id="progress" class="hidden"></section><section id="notes" class="hidden"></section>
+</main>
+<footer>FOUNDER LAB · 1日20分から、事業をつくる力を。</footer>
+<script>
+const months=[
+["ビジネスの基礎","価値・顧客・課題・商品・サービス・市場・売上・利益・コスト・競争優位"],
+["会社と経営","企業理念・ビジョン・ミッション・経営資源・組織・意思決定・戦略・企業文化"],
+["会計と数字","売上・原価・粗利益・営業利益・固定費・変動費・損益分岐点・貸借対照表・キャッシュフロー"],
+["マーケティング","顧客理解・STP・4P・ブランド・ポジショニング・顧客体験・リピート"],
+["市場と競合分析","市場規模・成長率・競合・代替品・SWOT・PEST・ファイブフォース"],
+["商品開発と販売","顧客インタビュー・仮説・MVP・試作品・販売導線・営業・価格設定"],
+["ビジネスモデル","顧客セグメント・価値提案・チャネル・収益源・コスト構造・継続課金"],
+["数字で改善する","KPI・KGI・CVR・LTV・CAC・継続率・解約率・データ分析"],
+["組織とリーダーシップ","採用・役割分担・チーム・文化・交渉・会議・リーダーシップ"],
+["起業の実務","会社設立の概要・契約・知的財産・税金の基礎・資金調達・リスク"],
+["事業計画","課題設定・顧客検証・市場選定・競争戦略・収支計画・ピッチ"],
+["自分の事業を形にする","アイデア選定・顧客調査・試作品・検証・改善・事業計画・発表"]
+];
+const dailyThemes=[
+["用語を理解する","身近な会社の例を探す","自分の言葉で説明する","3問クイズで確認する"],
+["仕組みを分解する","企業の取り組みを調べる","自分ならどう判断するか考える","判断理由を文章にする"],
+["数字を読む","会社や店の数字を想像する","簡単な計算をする","数字から言えることを書く"],
+["顧客を理解する","広告や商品を観察する","対象顧客を決める","改善案を1つ考える"],
+["市場を調べる","競合を2社比べる","違いを整理する","勝ち筋の仮説を書く"],
+["顧客の声を集める","質問を考える","試作品を考える","検証方法を決める"],
+["収益の仕組みを知る","サービスを分解する","収益源を設計する","弱点を見つける"],
+["指標を知る","数字の意味を考える","改善案を出す","目標値を仮置きする"],
+["人と組織を考える","チーム事例を見る","役割を設計する","伝え方を練習する"],
+["起業の基礎を知る","制度や事例を調べる","必要な準備を考える","専門家に聞く質問を書く"],
+["計画を作る","事例を参考にする","自分の計画を書く","数字と根拠を見直す"],
+["実際に試す","顧客候補を探す","小さく検証する","結果と次の行動を書く"]
+];
+const lessons=[
+["価値とは何か","ビジネスは、商品を作ること自体ではなく、誰かの困りごとや願いに応えることで成り立つ。顧客が「お金や時間を払ってでも解決したい」と思うことが価値の出発点。","身近な店やアプリを1つ選び、誰のどんな困りごとを解決しているか書こう。","価値は、作り手が良いと思うことだけで決まる。","価値は顧客にとって役立つことで決まる。"],
+["売上と利益の違い","売上は商品やサービスを販売して得た金額。利益は、売上から費用を差し引いて残る金額。売上が大きくても費用が大きければ利益は小さくなる。","好きな店を想像して、売上・仕入れ・人件費・家賃を挙げてみよう。","売上から費用を引いたものが利益。","売上は入ってきた金額、利益は費用を引いた残り。"],
+["顧客は誰か","「みんな向け」は誰にも強く響かないことがある。年齢、立場、行動、悩みなどで顧客を具体化すると、必要な機能や伝え方が見えやすくなる。","『つなぎ』なら、最初に使ってほしい指導者像を具体的に1人描いてみよう。","顧客を具体的にすると、商品や伝え方を考えやすい。","正解。顧客像が具体的だと課題や価値提案が明確になる。"]
+];
+const saved=JSON.parse(localStorage.getItem("fl_data")||'{"done":[],"notes":"","start":"2026-01-01"}');
+const today=new Date();const day=Math.floor((today-new Date(saved.start))/(86400000))+1;const d=Math.max(1,Math.min(365,day));
+const month=Math.min(11,Math.floor((d-1)/30.42));const topicDay=(d-1)%30+1;
+function save(){localStorage.setItem("fl_data",JSON.stringify(saved))}
+function lessonFor(n){return lessons[(n-1)%lessons.length]}
+function renderToday(){let l=lessonFor(d),done=saved.done.includes(d);document.querySelector("#today").innerHTML=`
+<div class="card"><div class="row"><span class="eyebrow">DAY ${d} / 365</span><span class="pill">20 MIN</span></div><div class="title">${months[month][0]}</div><div class="muted">年間テーマ · ${months[month][1]}</div><div class="progress"><span style="width:${saved.done.length/365*100}%"></span></div><div class="muted">完了 ${saved.done.length} / 365日</div></div>
+<div class="card lesson"><div class="eyebrow">TODAY'S LESSON</div><h2>${l[0]}</h2><p>${l[1]}</p><h3>今日の実践（10分）</h3><p>${l[2]}</p><h3>理解度チェック</h3><label class="option"><input type="radio" name="quiz" value="a"> ${l[3]}</label><label class="option"><input type="radio" name="quiz" value="b"> ${l[4]}</label><p id="feedback" class="muted"></p><button class="primary" id="quiz">答えを確認する</button><button class="secondary" id="complete" style="width:100%;margin-top:8px">${done?"今日の学習は完了済み":"今日の学習を完了する"}</button></div>
+<div class="card"><div class="eyebrow">FOUNDER'S NOTE</div><h3>今日、考えたこと</h3><textarea id="todaynote" placeholder="気づき・疑問・事業アイデアを書こう…">${saved["note"+d]||""}</textarea><button class="secondary" id="savenote">メモを保存</button></div>`;
+document.querySelector("#quiz").onclick=()=>{let v=document.querySelector('input[name="quiz"]:checked');document.querySelector("#feedback").textContent=!v?"選択肢を選んでね。":(v.value==="b"?"正解！その考え方が基本だよ。":"もう一度考えてみよう。顧客の立場で考えるのがポイント。")};
+document.querySelector("#complete").onclick=()=>{if(!saved.done.includes(d))saved.done.push(d);save();renderToday();renderProgress()};
+document.querySelector("#savenote").onclick=()=>{saved["note"+d]=document.querySelector("#todaynote").value;save();alert("メモを保存したよ！")}}
+function renderCurr(){document.querySelector("#curriculum").innerHTML=`<div class="card"><div class="eyebrow">12-MONTH ROADMAP</div><h2>1年間のカリキュラム</h2><p class="muted">基礎から始めて、最後は自分の事業計画と検証に取り組む。</p></div>`+months.map((m,i)=>`<div class="card"><div class="row"><b>MONTH ${i+1} · ${m[0]}</b><span class="pill">${i<3?"基礎":i<9?"応用":"実践"}</span></div><p class="muted">${m[1]}</p><p class="muted">月末アウトプット：${["ビジネス用語ノート","企業の戦略分析","企業の数字分析","マーケティング企画","市場・競合レポート","営業提案とMVP案","ビジネスモデルキャンバス","KPI管理シート","組織・運営設計","新規事業アイデア10案","事業計画書","最終ピッチと検証レポート"][i]}</p></div>`).join("")}
+function renderProgress(){document.querySelector("#progress").innerHTML=`<div class="card"><div class="eyebrow">YOUR GROWTH</div><h2>学習進捗</h2><div class="grid"><div class="stat"><b>${saved.done.length}</b><span>完了レッスン</span></div><div class="stat"><b>${Math.round(saved.done.length/365*100)}%</b><span>年間進捗</span></div><div class="stat"><b>${Math.floor(saved.done.length/7)}</b><span>学習週数の目安</span></div><div class="stat"><b>${365-saved.done.length}</b><span>残りレッスン</span></div></div><div class="progress"><span style="width:${saved.done.length/365*100}%"></span></div><p class="muted">完了した日はこの端末のブラウザに保存されるよ。端末やブラウザを変えると引き継がれない場合があるので注意。</p></div>`}
+function renderNotes(){document.querySelector("#notes").innerHTML=`<div class="card"><h2>アイデア・学びのノート</h2><p class="muted">気づいたこと、事業アイデア、調べたいことを自由に記録しよう。</p><textarea id="allnotes" placeholder="自分の考えを書きためよう…">${saved.notes||""}</textarea><button class="primary" id="savenotes">ノートを保存</button></div><div class="card"><h3>保存データについて</h3><p class="muted">進捗とノートはこのブラウザ内に保存される。定期的にコピーしてバックアップしてね。</p><button class="secondary" id="export">ノートと進捗をコピー</button></div>`;document.querySelector("#savenotes").onclick=()=>{saved.notes=document.querySelector("#allnotes").value;save();alert("保存したよ！")};document.querySelector("#export").onclick=()=>{navigator.clipboard?.writeText(JSON.stringify(saved,null,2)).then(()=>alert("保存データをコピーしたよ！")).catch(()=>alert("コピーできない場合はノート本文を別の場所にも保存してね。"))}}
+document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("active",x===b));["today","curriculum","progress","notes"].forEach(id=>document.getElementById(id).classList.toggle("hidden",id!==b.dataset.tab))});
+renderToday();renderCurr();renderProgress();renderNotes();
+if("serviceWorker" in navigator && location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").catch(()=>{});
+</script>
+</body></html>

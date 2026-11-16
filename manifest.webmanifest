@@ -1,0 +1,16 @@
+{
+  "name": "FOUNDER LAB",
+  "short_name": "FOUNDER LAB",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3f5f2",
+  "theme_color": "#102b25",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
